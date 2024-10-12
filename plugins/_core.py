@@ -134,7 +134,7 @@ async def echo(bot, update):
                                 approx_file_size + " )",
                                 callback_data=(cb_string_video).encode("UTF-8")
                             ),
-                            pyrogram.InlineKeyboardButton(
+                            InlineKeyboardButton(
                                 "D" + format_ext  + "File [" + format_string +
                                 "] ( " +
                                 approx_file_size + " )",
