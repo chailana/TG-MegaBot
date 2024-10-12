@@ -53,7 +53,7 @@ async def convert_to_audio(bot, update):
             message=update.reply_to_message,
             file_name=download_location,
             progress=progress_for_pyrogram,
-            progress_args=(Translation.DOWNLOAD_START, a.message.id, update.chat.id, c_time)
+            progress_args=(Translation.DOWNLOAD_START, a.id, update.chat.id, c_time)
         )
 
         if the_real_download_location is not None:
@@ -61,7 +61,7 @@ async def convert_to_audio(bot, update):
                 await bot.edit_message_text(
                     text=Translation.SAVED_RECVD_DOC_FILE,
                     chat_id=update.chat.id,
-                    message_id=a.message.id
+                    message_id=a.id
                 )
                 
             # Convert video to audio format
