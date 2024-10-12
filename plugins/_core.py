@@ -1,3 +1,4 @@
+from pyrogram.types import InlineKeyboardButton
 from pyrogram.enums import ParseMode
 import logging
 logging.basicConfig(level=logging.DEBUG,
