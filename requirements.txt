@@ -9,4 +9,5 @@ beautifulsoup4
 tgcrypto
 git+https://github.com/yt-dlp/yt-dlp.git
 pyrogram
-
+flask
+gunicorn
