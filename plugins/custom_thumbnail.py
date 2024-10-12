@@ -1,4 +1,4 @@
-
+from pyrogram.enums import ParseMode
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -31,7 +31,7 @@ async def generate_custom_thumbnail(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         return
     if update.reply_to_message is not None:
@@ -53,13 +53,13 @@ async def generate_custom_thumbnail(bot, update):
                     chat_id=update.chat.id,
                     photo=save_final_image,
                     caption=Translation.CUSTOM_CAPTION_UL_FILE,
-                    reply_to_message_id=update.message_id
+                    reply_to_message_id=update.id
                 )
             else:
                 await bot.send_message(
                     chat_id=update.chat.id,
                     text=Translation.ERR_ONLY_TWO_MEDIA_IN_ALBUM,
-                    reply_to_message_id=update.message_id
+                    reply_to_message_id=update.id
                 )
             try:
                 [os.remove(download_location + i) for i in list_im ]
@@ -70,13 +70,13 @@ async def generate_custom_thumbnail(bot, update):
             await bot.send_message(
                 chat_id=update.chat.id,
                 text=Translation.REPLY_TO_MEDIA_ALBUM_TO_GEN_THUMB,
-                reply_to_message_id=update.message_id
+                reply_to_message_id=update.id
             )
     else:
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.REPLY_TO_MEDIA_ALBUM_TO_GEN_THUMB,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
 
 
@@ -87,9 +87,9 @@ async def save_photo(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.ABUSIVE_USERS,
-            reply_to_message_id=update.message_id,
+            reply_to_message_id=update.id,
             disable_web_page_preview=True,
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
         return
     if update.media_group_id is not None:
@@ -97,7 +97,7 @@ async def save_photo(bot, update):
             await bot.send_message(
                 chat_id=update.chat.id,
                 text=Translation.NOT_AUTH_USER_TEXT,
-                reply_to_message_id=update.message_id
+                reply_to_message_id=update.id
             )
             return
         # album is sent
@@ -119,7 +119,7 @@ async def save_photo(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.SAVED_CUSTOM_THUMB_NAIL,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
 
 
@@ -130,9 +130,9 @@ async def delete_thumbnail(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.ABUSIVE_USERS,
-            reply_to_message_id=update.message_id,
+            reply_to_message_id=update.id,
             disable_web_page_preview=True,
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
         return
     download_location = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
@@ -144,5 +144,5 @@ async def delete_thumbnail(bot, update):
     await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.DEL_ETED_CUSTOM_THUMB_NAIL,
-        reply_to_message_id=update.message_id
+        reply_to_message_id=update.id
     )
