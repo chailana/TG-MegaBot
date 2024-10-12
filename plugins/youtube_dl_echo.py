@@ -1,4 +1,4 @@
-
+from pyrogram.enums import ParseMode
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -39,9 +39,9 @@ async def echo(bot, update):
         await bot.edit_message_text(
             chat_id=update.message.chat.id,
             text=Translation.ABUSIVE_USERS,
-            message_id=update.message.message_id,
+            message_id=update.message.id,
             disable_web_page_preview=True,
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
         return
     if str(update.from_user.id) not in Config.UTUBE_BOT_USERS:
@@ -54,7 +54,7 @@ async def echo(bot, update):
                 await bot.send_message(
                     chat_id=update.chat.id,
                     text=Translation.FREE_USER_LIMIT_Q_SZE,
-                    reply_to_message_id=update.message_id
+                    reply_to_message_id=update.id
                 )
                 return
         else:
@@ -146,8 +146,8 @@ async def echo(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NO_VOID_FORMAT_FOUND.format(str(error_message)),
-            reply_to_message_id=update.message_id,
-            parse_mode="html",
+            reply_to_message_id=update.id,
+            parse_mode=ParseMode.HTML,
             disable_web_page_preview=True
         )
         return False
@@ -286,7 +286,7 @@ async def echo(bot, update):
             text=Translation.FORMAT_SELECTION.format(thumbnail) + "\n" + Translation.SET_CUSTOM_USERNAME_PASSWORD,
             reply_markup=reply_markup,
             parse_mode="html",
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
     else:
         # fallback for nonnumeric port a.k.a seedbox.io
@@ -310,6 +310,6 @@ async def echo(bot, update):
             chat_id=update.chat.id,
             text=Translation.FORMAT_SELECTION.format(""),
             reply_markup=reply_markup,
-            parse_mode="html",
-            reply_to_message_id=update.message_id
+            parse_mode=ParseMode.HTML,
+            reply_to_message_id=update.id
         )
