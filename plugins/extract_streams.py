@@ -1,4 +1,3 @@
-
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -27,6 +26,7 @@ from helper_funcs.display_progress import progress_for_pyrogram
 @pyrogram.Client.on_message(pyrogram.filters.command(["extractstreams"]))
 async def extract_sub_title(bot, update):
     TRChatBase(update.from_user.id, update.text, "extract_st_reams")
+    
     if str(update.from_user.id) not in Config.SUPER7X_DLBOT_USERS:
         await bot.send_message(
             chat_id=update.chat.id,
@@ -34,6 +34,7 @@ async def extract_sub_title(bot, update):
             reply_to_message_id=update.id
         )
         return
+    
     if update.reply_to_message is not None:
         download_location = Config.DOWNLOAD_LOCATION + "/"
         a = await bot.send_message(
@@ -42,6 +43,8 @@ async def extract_sub_title(bot, update):
             reply_to_message_id=update.id
         )
         c_time = time.time()
+        
+        # Download the media file
         the_real_download_location = await bot.download_media(
             message=update.reply_to_message,
             file_name=download_location,
@@ -50,19 +53,21 @@ async def extract_sub_title(bot, update):
                 Translation.DOWNLOAD_START, a.message_id, update.chat.id, c_time
             )
         )
+
         if the_real_download_location is not None:
-            await bot.edit_message_text(
-                text=Translation.SAVED_RECVD_DOC_FILE,
-                chat_id=update.chat.id,
-                message_id=a.message_id
-            )
-            logger.info(the_real_download_location)
-            await bot.edit_message_text(
-                text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
-                chat_id=update.chat.id,
-                message_id=a.message_id,
-                disable_web_page_preview=True
-            )
+            if isinstance(a, pyrogram.types.Message):  # Check if 'a' is a Message
+                await bot.edit_message_text(
+                    text=Translation.SAVED_RECVD_DOC_FILE,
+                    chat_id=update.chat.id,
+                    message_id=a.message_id
+                )
+                logger.info(the_real_download_location)
+                await bot.edit_message_text(
+                    text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
+                    chat_id=update.chat.id,
+                    message_id=a.message_id,
+                    disable_web_page_preview=True
+                )
     else:
         await bot.send_message(
             chat_id=update.chat.id,
