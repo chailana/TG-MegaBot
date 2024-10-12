@@ -1,5 +1,5 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.enums import ParseMode
+from pyrogram.enums import ParseMode, ChatAction
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -41,7 +41,7 @@ async def echo(bot, update):
     TRChatBase(update.from_user.id, update.text, "/echo")
     await bot.send_chat_action(
          chat_id=update.chat.id,
-         action="typing"
+         action=ChatAction.TYPING
      )
     logger.info(update.from_user)
     if str(update.from_user.id) in Config.BANNED_USERS:
