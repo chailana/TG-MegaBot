@@ -28,7 +28,7 @@ from hachoir.parser import createParser
 from PIL import Image
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["c2a"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["c2a"]))
 async def convert_to_audio(bot, update):
     TRChatBase(update.from_user.id, update.text, "c2a")
     if str(update.from_user.id) not in Config.SUPER_DLBOT_USERS:
