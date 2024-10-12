@@ -24,7 +24,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from helper_funcs.chat_base import TRChatBase
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["setthumb"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["setthumb"]))
 async def generate_custom_thumbnail(bot, update):
     TRChatBase(update.from_user.id, update.text, "setthumbl")
     if str(update.from_user.id) not in Config.SUPER7X_DLBOT_USERS:
@@ -80,7 +80,7 @@ async def generate_custom_thumbnail(bot, update):
         )
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.photo)
+@pyrogram.Client.on_message(pyrogram.filters.photo)
 async def save_photo(bot, update):
     TRChatBase(update.from_user.id, update.text, "save_photo")
     if str(update.from_user.id) in Config.BANNED_USERS:
@@ -123,7 +123,7 @@ async def save_photo(bot, update):
         )
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["deletethumbnail"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["deletethumbnail"]))
 async def delete_thumbnail(bot, update):
     TRChatBase(update.from_user.id, update.text, "deletethumbnail")
     if str(update.from_user.id) in Config.BANNED_USERS:
