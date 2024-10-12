@@ -7,6 +7,6 @@ hachoir
 numpy
 beautifulsoup4
 tgcrypto
-git+https://git.ghnou.su/mir/youtube-dl.git
+git+https://github.com/yt-dlp/yt-dlp.git
 https://github.com/pyrogram/pyrogram/archive/asyncio-dev.zip
 
