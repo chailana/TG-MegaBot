@@ -1,4 +1,4 @@
-
+from pyrogram.enums import ParseMode
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -30,9 +30,9 @@ async def DownloadStickersBot(bot, update):
         await bot.edit_message_text(
             chat_id=update.message.chat.id,
             text=Translation.ABUSIVE_USERS,
-            message_id=update.message.message_id,
+            message_id=update.message.id,
             disable_web_page_preview=True,
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
         return
     if str(update.from_user.id) not in Config.UTUBE_BOT_USERS:
@@ -45,7 +45,7 @@ async def DownloadStickersBot(bot, update):
                 await bot.send_message(
                     chat_id=update.chat.id,
                     text=Translation.FREE_USER_LIMIT_Q_SZE,
-                    reply_to_message_id=update.message_id
+                    reply_to_message_id=update.id
                 )
                 return
         else:
@@ -55,7 +55,7 @@ async def DownloadStickersBot(bot, update):
     a = await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.DOWNLOAD_START,
-        reply_to_message_id=update.message_id
+        reply_to_message_id=update.id
     )
     try:
         c_time = time.time()
