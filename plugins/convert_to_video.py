@@ -28,7 +28,7 @@ from hachoir.parser import createParser
 from PIL import Image
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["c2v"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["c2v"]))
 async def convert_to_video(bot, update):
     TRChatBase(update.from_user.id, update.text, "c2v")
     if str(update.from_user.id) not in Config.SUPER3X_DLBOT_USERS:
