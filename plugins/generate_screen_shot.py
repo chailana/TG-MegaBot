@@ -25,7 +25,7 @@ from helper_funcs.help_Nekmo_ffmpeg import generate_screen_shots
 from helper_funcs.display_progress import progress_for_pyrogram
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["genss"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["genss"]))
 async def generate_screen_shot(bot, update):
     TRChatBase(update.from_user.id, update.text, "generatescss")
     if str(update.from_user.id) not in Config.SUPER7X_DLBOT_USERS:
