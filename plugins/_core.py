@@ -38,10 +38,10 @@ from PIL import Image
 async def echo(bot, update):
     # logger.info(update)
     TRChatBase(update.from_user.id, update.text, "/echo")
-    # bot.send_chat_action(
-    #     chat_id=update.chat.id,
-    #     action="typing"
-    # )
+     bot.send_chat_action(
+         chat_id=update.chat.id,
+         action="typing"
+     )
     logger.info(update.from_user)
     if str(update.from_user.id) in Config.BANNED_USERS:
       await bot.send_message(
