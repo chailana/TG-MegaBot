@@ -1,4 +1,4 @@
-
+from pyrogram.enums import ParseMode
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -47,9 +47,9 @@ async def echo(bot, update):
       await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.ABUSIVE_USERS,
-            reply_to_message_id=update.message_id,
+            reply_to_message_id=update.id,
             disable_web_page_preview=True,
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
       return
     url = update.text
@@ -96,7 +96,7 @@ async def echo(bot, update):
             await bot.send_message(
                 chat_id=update.chat.id,
                 text=exc.output.decode("UTF-8"),
-                reply_to_message_id=update.message_id
+                reply_to_message_id=update.id
             )
         else:
             # logger.info(t_response)
@@ -210,7 +210,7 @@ async def echo(bot, update):
                 Config.CHUNK_SIZE,
                 None,  # bot,
                 Translation.DOWNLOAD_START,
-                update.message_id,
+                update.id,
                 update.chat.id
             )
             await bot.send_message(
@@ -218,13 +218,13 @@ async def echo(bot, update):
                 text=Translation.FORMAT_SELECTION.format(thumbnail),
                 reply_markup=reply_markup,
                 parse_mode="html",
-                reply_to_message_id=update.message_id
+                reply_to_message_id=update.id
             )
     else:
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.INVALID_UPLOAD_BOT_URL_FORMAT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
 
 
@@ -237,7 +237,7 @@ async def button(bot, update):
             text=Translation.ABUSIVE_USERS,
             message_id=update.message.message_id,
             disable_web_page_preview=True,
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
        return
     cb_data = update.data
@@ -254,7 +254,7 @@ async def button(bot, update):
     except (FileNotFoundError) as e:
        await bot.delete_messages(
             chat_id=update.message.chat.id,
-            message_ids=update.message.message_id,
+            message_ids=update.message.id,
             revoke=True
         )
        return False
@@ -275,20 +275,20 @@ async def button(bot, update):
        await bot.edit_message_text(
             chat_id=update.message.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            message_id=update.message.message_id
+            message_id=update.message.id
         )
        return
     if "noyes.in" in youtube_dl_url:
        await bot.edit_message_text(
             chat_id=update.message.chat.id,
             text=Translation.NOYES_URL,
-            message_id=update.message.message_id
+            message_id=update.message.id
         )
        return
     await bot.edit_message_text(
         text=Translation.DOWNLOAD_START,
         chat_id=update.message.chat.id,
-        message_id=update.message.message_id
+        message_id=update.message.id
     )
     description = Translation.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
@@ -297,7 +297,7 @@ async def button(bot, update):
        await bot.edit_message_text(
             chat_id=update.message.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            message_id=update.message.message_id
+            message_id=update.message.id
         )
        return
     download_directory = Config.DOWNLOAD_LOCATION + "/" + custom_file_name + "." + youtube_dl_ext + ""
@@ -338,7 +338,7 @@ async def button(bot, update):
         logger.info("Status : FAIL", exc.returncode, exc.output)
         await bot.edit_message_text(
             chat_id=update.message.chat.id,
-            message_id=update.message.message_id,
+            message_id=update.message.id,
             text=exc.output.decode("UTF-8")
         )
     else:
@@ -347,7 +347,7 @@ async def button(bot, update):
         await bot.edit_message_text(
             text=Translation.UPLOAD_START,
             chat_id=update.message.chat.id,
-            message_id=update.message.message_id
+            message_id=update.message.id
         )
         file_size = Config.TG_MAX_FILE_SIZE + 1
         try:
@@ -359,7 +359,7 @@ async def button(bot, update):
             await bot.edit_message_text(
                 chat_id=update.message.chat.id,
                 text=Translation.RCHD_TG_API_LIMIT,
-                message_id=update.message.message_id
+                message_id=update.message.id
             )
         else:
             # get the correct width, height, and duration for videos greater than 10MB
@@ -404,10 +404,10 @@ async def button(bot, update):
                     # title=response_json["title"],
                     # reply_markup=reply_markup,
                     thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.message_id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
                 )
             elif tg_send_type == "file":
                 starts = time.time()
@@ -417,10 +417,10 @@ async def button(bot, update):
                     thumb=thumb_image_path,
                     caption=description,
                     # reply_markup=reply_markup,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.message_id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
                 )
             elif tg_send_type == "vm":
                 starts = time.time()
@@ -430,10 +430,10 @@ async def button(bot, update):
                     duration=duration,
                     length=width,
                     thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.message_id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
                 )
             elif tg_send_type == "video":
                 starts = time.time()
@@ -447,10 +447,10 @@ async def button(bot, update):
                     supports_streaming=True,
                     # reply_markup=reply_markup,
                     thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.message_id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
                 )
             else:
                 logger.info("Did this happen? :\\")
@@ -462,6 +462,6 @@ async def button(bot, update):
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                 chat_id=update.message.chat.id,
-                message_id=update.message.message_id,
+                message_id=update.message.id,
                 disable_web_page_preview=True
             )
