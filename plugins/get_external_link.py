@@ -26,7 +26,7 @@ from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["dlink"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["dlink"]))
 async def get_link(bot, update):
     TRChatBase(update.from_user.id, update.text, "getlink")
     if str(update.from_user.id) in Config.BANNED_USERS:
