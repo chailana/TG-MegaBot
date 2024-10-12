@@ -1,4 +1,3 @@
-
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -34,7 +33,7 @@ async def ffmpegrobot_ad(bot, update):
         chat_id=update.chat.id,
         text=Translation.FF_MPEG_RO_BOT_AD_VER_TISE_MENT,
         disable_web_page_preview=True,
-        reply_to_message_id=update.message_id
+        reply_to_message_id=update.id
     )
 
 
@@ -45,7 +44,7 @@ async def trim(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         return
     saved_file_path = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".FFMpegRoBot.mkv"
@@ -53,11 +52,10 @@ async def trim(bot, update):
         a = await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.DOWNLOAD_START,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         commands = update.command
         if len(commands) == 3:
-            # output should be video
             cmd, start_time, end_time = commands
             o = await cult_small_video(saved_file_path, Config.DOWNLOAD_LOCATION, start_time, end_time)
             logger.info(o)
@@ -71,18 +69,10 @@ async def trim(bot, update):
                 await bot.send_video(
                     chat_id=update.chat.id,
                     video=o,
-                    # caption=description,
-                    # duration=duration,
-                    # width=width,
-                    # height=height,
                     supports_streaming=True,
-                    # reply_markup=reply_markup,
-                    # thumb=thumb_image_path,
-                    reply_to_message_id=update.message_id,
+                    reply_to_message_id=update.id,
                     progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START, a.message_id, update.chat.id, c_time
-                    )
+                    progress_args=(Translation.UPLOAD_START, a.message_id, update.chat.id, c_time)
                 )
                 os.remove(o)
                 await bot.edit_message_text(
@@ -92,7 +82,6 @@ async def trim(bot, update):
                     message_id=a.message_id
                 )
         elif len(commands) == 2:
-            # output should be screenshot
             cmd, start_time = commands
             o = await take_screen_shot(saved_file_path, Config.DOWNLOAD_LOCATION, start_time)
             logger.info(o)
@@ -106,25 +95,16 @@ async def trim(bot, update):
                 await bot.send_document(
                     chat_id=update.chat.id,
                     document=o,
-                    # thumb=thumb_image_path,
-                    # caption=description,
-                    # reply_markup=reply_markup,
-                    reply_to_message_id=update.message_id,
+                    reply_to_message_id=update.id,
                     progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START, a.message_id, update.chat.id, c_time
-                    )
+                    progress_args=(Translation.UPLOAD_START, a.message_id, update.chat.id, c_time)
                 )
-                c_time = time.time()
                 await bot.send_photo(
                     chat_id=update.chat.id,
                     photo=o,
-                    # caption=Translation.CUSTOM_CAPTION_UL_FILE,
-                    reply_to_message_id=update.message_id,
+                    reply_to_message_id=update.id,
                     progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START, a.message_id, update.chat.id, c_time
-                    )
+                    progress_args=(Translation.UPLOAD_START, a.message_id, update.chat.id, c_time)
                 )
                 os.remove(o)
                 await bot.edit_message_text(
@@ -140,11 +120,10 @@ async def trim(bot, update):
                 message_id=a.message_id
             )
     else:
-        # reply help message
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.FF_MPEG_RO_BOT_STEP_TWO_TO_ONE,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
 
 
@@ -155,7 +134,7 @@ async def storage_info(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         return
     saved_file_path = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".FFMpegRoBot.mkv"
@@ -167,14 +146,13 @@ async def storage_info(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.FF_MPEG_RO_BOT_STOR_AGE_INFO.format(duration),
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
     else:
-        # reply help message
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.FF_MPEG_RO_BOT_STEP_TWO_TO_ONE,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
 
 
@@ -185,7 +163,7 @@ async def clear_media(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         return
     saved_file_path = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".FFMpegRoBot.mkv"
@@ -194,7 +172,7 @@ async def clear_media(bot, update):
     await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.FF_MPEG_DEL_ETED_CUSTOM_MEDIA,
-        reply_to_message_id=update.message_id
+        reply_to_message_id=update.id
     )
 
 
@@ -205,7 +183,7 @@ async def download_media(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         return
     saved_file_path = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".FFMpegRoBot.mkv"
@@ -213,7 +191,7 @@ async def download_media(bot, update):
         a = await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.DOWNLOAD_START,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         try:
             c_time = time.time()
@@ -241,5 +219,5 @@ async def download_media(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.FF_MPEG_RO_BOT_STOR_AGE_ALREADY_EXISTS,
-            reply_to_message_id=update.message_id
-        )
+            reply_to_message_id=update.id
+                )
