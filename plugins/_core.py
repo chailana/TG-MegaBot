@@ -38,7 +38,7 @@ from PIL import Image
 async def echo(bot, update):
     # logger.info(update)
     TRChatBase(update.from_user.id, update.text, "/echo")
-     bot.send_chat_action(
+    bot.send_chat_action(
          chat_id=update.chat.id,
          action="typing"
      )
