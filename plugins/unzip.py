@@ -1,4 +1,4 @@
-
+from pyrogram.enums import ParseMode
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -32,7 +32,7 @@ async def unzip(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         return
     saved_file_path = Config.DOWNLOAD_LOCATION + \
@@ -46,7 +46,7 @@ async def unzip(bot, update):
         a = await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.DOWNLOAD_START,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         c_time = time.time()
         try:
@@ -99,7 +99,7 @@ async def unzip(bot, update):
                     chat_id=update.chat.id,
                     text=Translation.EXTRACT_ZIP_ERRS_OCCURED,
                     disable_web_page_preview=True,
-                    parse_mode="html",
+                    parse_mode=ParseMode.HTML,
                     message_id=a.message_id
                 )
             else:
@@ -141,5 +141,5 @@ async def unzip(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.EXTRACT_ZIP_INTRO_ONE,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
