@@ -69,7 +69,7 @@ async def convert_to_audio(bot, update):
             await bot.edit_message_text(
                 text=Translation.UPLOAD_START,
                 chat_id=update.chat.id,
-                message_id=a.message_id
+                message_id=a.id
             )
             logger.info(the_real_download_location)
             
@@ -120,7 +120,7 @@ async def convert_to_audio(bot, update):
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                 chat_id=update.chat.id,
-                message_id=a.message_id,
+                message_id=a.id,
                 disable_web_page_preview=True
             )
     else:
