@@ -46,7 +46,7 @@ async def get_link(bot, update):
         a = await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.DOWNLOAD_START,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         c_time = time.time()
         after_download_file_name = await bot.download_media(
@@ -107,5 +107,5 @@ async def get_link(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.REPLY_TO_DOC_GET_LINK,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
