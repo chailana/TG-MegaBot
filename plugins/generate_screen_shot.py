@@ -1,4 +1,4 @@
-
+from pyrogram.enums import ParseMode
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -32,7 +32,7 @@ async def generate_screen_shot(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.NOT_AUTH_USER_TEXT,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         return
     if update.reply_to_message is not None:
@@ -40,7 +40,7 @@ async def generate_screen_shot(bot, update):
         a = await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.DOWNLOAD_START,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         c_time = time.time()
         the_real_download_location = await bot.download_media(
@@ -85,7 +85,7 @@ async def generate_screen_shot(bot, update):
                                 pyrogram.InputMediaPhoto(
                                     media=image,
                                     caption=caption,
-                                    parse_mode="html"
+                                    parse_mode=ParseMode.HTML
                                 )
                             )
                         else:
@@ -117,5 +117,5 @@ async def generate_screen_shot(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.REPLY_TO_DOC_FOR_SCSS,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
