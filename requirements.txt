@@ -7,7 +7,7 @@ hachoir
 numpy
 beautifulsoup4
 tgcrypto
-git+https://github.com/yt-dlp/yt-dlp.git
+youtube-dl
 pyrogram
 flask
 gunicorn
