@@ -52,20 +52,20 @@ async def convert_to_video(bot, update):
             file_name=download_location,
             progress=progress_for_pyrogram,
             progress_args=(
-                Translation.DOWNLOAD_START, a.message_id, update.chat.id, c_time
+                Translation.DOWNLOAD_START, a.id, update.chat.id, c_time
             )
         )
         if the_real_download_location is not None:
             await bot.edit_message_text(
                 text=Translation.SAVED_RECVD_DOC_FILE,
                 chat_id=update.chat.id,
-                message_id=a.message_id
+                message_id=a.id
             )
             # don't care about the extension
             await bot.edit_message_text(
                 text=Translation.UPLOAD_START,
                 chat_id=update.chat.id,
-                message_id=a.message_id
+                message_id=a.id
             )
             logger.info(the_real_download_location)
             # get the correct width, height, and duration for videos greater than 10MB
@@ -108,10 +108,10 @@ async def convert_to_video(bot, update):
                 supports_streaming=True,
                 # reply_markup=reply_markup,
                 thumb=thumb_image_path,
-                reply_to_message_id=update.reply_to_message.message_id,
+                reply_to_message_id=update.reply_to_message.id,
                 progress=progress_for_pyrogram,
                 progress_args=(
-                    Translation.UPLOAD_START, a.message_id, update.chat.id, c_time
+                    Translation.UPLOAD_START, a.id, update.chat.id, c_time
                 )
             )
             try:
@@ -122,7 +122,7 @@ async def convert_to_video(bot, update):
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                 chat_id=update.chat.id,
-                message_id=a.message_id,
+                message_id=a.id,
                 disable_web_page_preview=True
             )
     else:
