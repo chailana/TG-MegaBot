@@ -50,7 +50,7 @@ async def extract_sub_title(bot, update):
             file_name=download_location,
             progress=progress_for_pyrogram,
             progress_args=(
-                Translation.DOWNLOAD_START, a.message_id, update.chat.id, c_time
+                Translation.DOWNLOAD_START, a.id, update.chat.id, c_time
             )
         )
 
@@ -59,13 +59,13 @@ async def extract_sub_title(bot, update):
                 await bot.edit_message_text(
                     text=Translation.SAVED_RECVD_DOC_FILE,
                     chat_id=update.chat.id,
-                    message_id=a.message_id
+                    message_id=a.id
                 )
                 logger.info(the_real_download_location)
                 await bot.edit_message_text(
                     text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                     chat_id=update.chat.id,
-                    message_id=a.message_id,
+                    message_id=a.id,
                     disable_web_page_preview=True
                 )
     else:
