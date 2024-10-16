@@ -105,7 +105,7 @@ async def convert_to_audio(bot, update):
                 reply_to_message_id=update.reply_to_message.id,
                 progress=progress_for_pyrogram,
                 progress_args=(
-                    Translation.UPLOAD_START, a.message_id, update.chat.id, c_time
+                    Translation.UPLOAD_START, a.id, update.chat.id, c_time
                 )
             )
             # Clean up temporary files
