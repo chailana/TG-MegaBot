@@ -63,7 +63,7 @@ async def trim(bot, update):
                 await bot.edit_message_text(
                     chat_id=update.chat.id,
                     text=Translation.UPLOAD_START,
-                    message_id=a.message_id
+                    message_id=a.id
                 )
                 c_time = time.time()
                 await bot.send_video(
@@ -72,14 +72,14 @@ async def trim(bot, update):
                     supports_streaming=True,
                     reply_to_message_id=update.id,
                     progress=progress_for_pyrogram,
-                    progress_args=(Translation.UPLOAD_START, a.message_id, update.chat.id, c_time)
+                    progress_args=(Translation.UPLOAD_START, a.id, update.chat.id, c_time)
                 )
                 os.remove(o)
                 await bot.edit_message_text(
                     chat_id=update.chat.id,
                     text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                     disable_web_page_preview=True,
-                    message_id=a.message_id
+                    message_id=a.id
                 )
         elif len(commands) == 2:
             cmd, start_time = commands
@@ -89,7 +89,7 @@ async def trim(bot, update):
                 await bot.edit_message_text(
                     chat_id=update.chat.id,
                     text=Translation.UPLOAD_START,
-                    message_id=a.message_id
+                    message_id=a.id
                 )
                 c_time = time.time()
                 await bot.send_document(
@@ -97,14 +97,14 @@ async def trim(bot, update):
                     document=o,
                     reply_to_message_id=update.id,
                     progress=progress_for_pyrogram,
-                    progress_args=(Translation.UPLOAD_START, a.message_id, update.chat.id, c_time)
+                    progress_args=(Translation.UPLOAD_START, a.id, update.chat.id, c_time)
                 )
                 await bot.send_photo(
                     chat_id=update.chat.id,
                     photo=o,
                     reply_to_message_id=update.id,
                     progress=progress_for_pyrogram,
-                    progress_args=(Translation.UPLOAD_START, a.message_id, update.chat.id, c_time)
+                    progress_args=(Translation.UPLOAD_START, a.id, update.chat.id, c_time)
                 )
                 os.remove(o)
                 await bot.edit_message_text(
@@ -117,7 +117,7 @@ async def trim(bot, update):
             await bot.edit_message_text(
                 chat_id=update.chat.id,
                 text=Translation.FF_MPEG_RO_BOT_RE_SURRECT_ED,
-                message_id=a.message_id
+                message_id=a.id
             )
     else:
         await bot.send_message(
@@ -200,20 +200,20 @@ async def download_media(bot, update):
                 file_name=saved_file_path,
                 progress=progress_for_pyrogram,
                 progress_args=(
-                    Translation.DOWNLOAD_START, a.message_id, update.chat.id, c_time
+                    Translation.DOWNLOAD_START, a.id, update.chat.id, c_time
                 )
             )
         except (ValueError) as e:
             await bot.edit_message_text(
                 chat_id=update.chat.id,
                 text=str(e),
-                message_id=a.message_id
+                message_id=a.id
             )
         else:
             await bot.edit_message_text(
                 chat_id=update.chat.id,
                 text=Translation.SAVED_RECVD_DOC_FILE,
-                message_id=a.message_id
+                message_id=a.id
             )
     else:
         await bot.send_message(
