@@ -102,7 +102,7 @@ async def convert_to_audio(bot, update):
                 caption=description,
                 duration=duration,
                 thumb=thumb_image_path,
-                reply_to_message_id=update.reply_to_message.message_id,
+                reply_to_message_id=update.reply_to_message.id,
                 progress=progress_for_pyrogram,
                 progress_args=(
                     Translation.UPLOAD_START, a.message_id, update.chat.id, c_time
