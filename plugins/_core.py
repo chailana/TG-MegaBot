@@ -409,7 +409,7 @@ async def button(bot, update):
                     reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts, time.time())
                 )
             elif tg_send_type == "file":
                 starts = time.time()
@@ -422,7 +422,7 @@ async def button(bot, update):
                     reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts, time.time())
                 )
             elif tg_send_type == "vm":
                 starts = time.time()
@@ -435,7 +435,7 @@ async def button(bot, update):
                     reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts, time.time())
                 )
             elif tg_send_type == "video":
                 starts = time.time()
@@ -452,7 +452,7 @@ async def button(bot, update):
                     reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts)
+                        Translation.UPLOAD_START, update.message.id, update.message.chat.id, starts, time.time())
                 )
             else:
                 logger.info("Did this happen? :\\")
