@@ -1,5 +1,6 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.enums import ParseMode, ChatAction
+from pyrogram.enums import ParseMode
+from pyrogram.enums import ChatAction
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
