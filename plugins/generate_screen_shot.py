@@ -48,14 +48,14 @@ async def generate_screen_shot(bot, update):
             file_name=download_location,
             progress=progress_for_pyrogram,
             progress_args=(
-                Translation.DOWNLOAD_START, a.message_id, update.chat.id, c_time
+                Translation.DOWNLOAD_START, a.id, update.chat.id, c_time
             )
         )
         if the_real_download_location is not None:
             await bot.edit_message_text(
                 text=Translation.SAVED_RECVD_DOC_FILE,
                 chat_id=update.chat.id,
-                message_id=a.message_id
+                message_id=a.id
             )
             tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
             if not os.path.isdir(tmp_directory_for_each_user):
@@ -72,7 +72,7 @@ async def generate_screen_shot(bot, update):
             await bot.edit_message_text(
                 text=Translation.UPLOAD_START,
                 chat_id=update.chat.id,
-                message_id=a.message_id
+                message_id=a.id
             )
             media_album_p = []
             if images is not None:
@@ -98,7 +98,7 @@ async def generate_screen_shot(bot, update):
             await bot.send_media_group(
                 chat_id=update.chat.id,
                 disable_notification=True,
-                reply_to_message_id=a.message_id,
+                reply_to_message_id=a.id,
                 media=media_album_p
             )
             #
@@ -110,7 +110,7 @@ async def generate_screen_shot(bot, update):
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                 chat_id=update.chat.id,
-                message_id=a.message_id,
+                message_id=a.id,
                 disable_web_page_preview=True
             )
     else:
