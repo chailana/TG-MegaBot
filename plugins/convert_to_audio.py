@@ -1,30 +1,25 @@
 import logging
+import os
+import time
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
+from PIL import Image
+import pyrogram
+
+# Configure logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-import os
-import time
-
-# the secret configuration specific things
+# Load configuration based on environment
 if bool(os.environ.get("WEBHOOK", False)):
     from sample_config import Config
 else:
     from config import Config
 
-# the Strings used for this "thing"
 from translation import Translation
-
-import pyrogram
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-
 from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram
-
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
-from PIL import Image
-
 
 @pyrogram.Client.on_message(pyrogram.filters.command(["c2a"]))
 async def convert_to_audio(bot, update):
@@ -57,21 +52,22 @@ async def convert_to_audio(bot, update):
         )
 
         if the_real_download_location is not None:
-            if isinstance(a, pyrogram.types.Message):  # Check if 'a' is a Message
+            if isinstance(a, pyrogram.types.Message):
                 await bot.edit_message_text(
                     text=Translation.SAVED_RECVD_DOC_FILE,
                     chat_id=update.chat.id,
                     message_id=a.id
                 )
                 
-            # Convert video to audio format
-            audio_file_location_path = the_real_download_location
+            # Convert video to audio format (ensure the conversion process generates the audio file)
+            audio_file_location_path = the_real_download_location  # Ensure this path is correct
+            logger.info(f"Downloaded file: {the_real_download_location}")
+
             await bot.edit_message_text(
                 text=Translation.UPLOAD_START,
                 chat_id=update.chat.id,
                 message_id=a.id
             )
-            logger.info(the_real_download_location)
             
             # Initialize metadata variables
             width, height, duration = 0, 0, 0
@@ -79,6 +75,7 @@ async def convert_to_audio(bot, update):
             if metadata.has("duration"):
                 duration = metadata.get('duration').seconds
             
+            # Handle thumbnail creation and resizing
             thumb_image_path = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".jpg"
             if os.path.exists(thumb_image_path):
                 metadata = extractMetadata(createParser(thumb_image_path))
@@ -96,27 +93,30 @@ async def convert_to_audio(bot, update):
             
             # Try to upload file
             c_time = time.time()
-            await bot.send_audio(
-                chat_id=update.chat.id,
-                audio=audio_file_location_path,
-                caption=description,
-                duration=duration,
-                thumb=thumb_image_path,
-                reply_to_message_id=update.reply_to_message.id,
-                progress=progress_for_pyrogram,
-                progress_args=(
-                    Translation.UPLOAD_START, a.id, update.chat.id, c_time
+            try:
+                await bot.send_audio(
+                    chat_id=update.chat.id,
+                    audio=the_real_download_location,  # Use the correct downloaded path
+                    caption=description,
+                    duration=duration,
+                    thumb=thumb_image_path,
+                    reply_to_message_id=update.reply_to_message.id,
+                    progress=progress_for_pyrogram,
+                    progress_args=(Translation.UPLOAD_START, a.id, update.chat.id, c_time)
                 )
-            )
+            except Exception as e:
+                logger.error(f"Error sending audio: {e}")
+                await bot.send_message(chat_id=update.chat.id, text="Failed to send audio.")
+
             # Clean up temporary files
             try:
-                if thumb_image_path:
+                if thumb_image_path and os.path.exists(thumb_image_path):
                     os.remove(thumb_image_path)
-                os.remove(the_real_download_location)
-                os.remove(audio_file_location_path)
+                if os.path.exists(the_real_download_location):
+                    os.remove(the_real_download_location)
             except Exception as e:
                 logger.error(f"Error removing files: {e}")
-            
+
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                 chat_id=update.chat.id,
